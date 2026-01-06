@@ -8,12 +8,9 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -34,36 +31,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        theme: dark,
-      }}
-    >
       <html lang="en" suppressHydrationWarning>
         <body className={cn(inter.variable, plexMono.variable, "antialiased")}>
-          <ThemeProvider attribute="class" defaultTheme="dark">
-            <header className="border-b border-border h-10 w-full px-6 sm:px-10">
-              <div className="flex items-center h-full w-full justify-end">
-                <SignedOut>
-                  <div className="flex gap-2 items-center">
-                    <Button render={<SignInButton />}>
-                      Sign In
-                    </Button>
-                    <Button variant="outline" render={<SignUpButton />}>
-                      Sign Up
-                    </Button>
-                  </div>
-                </SignedOut>
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-              </div>
-            </header>
-            {children}
-            <Toaster />
-          </ThemeProvider>
+            <Providers>
+              {children}
+            </Providers>
         </body>
       </html>
-    </ClerkProvider>
   );
 }
